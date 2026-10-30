@@ -1,6 +1,6 @@
 {
   "script": "paper_acl_role_sharing/build_tables.py",
-  "script_sha256": "7bdb7277de7bebcf87db7ac7531641440a65b1ca0fa31dbaf0f50122264e445a",
+  "script_sha256": "022c1ad8105eb6fca5c593c87344e6a0db8c064918ef5d7c4cd2edcf48cdd0d9",
   "inputs": {
     "s1_episodes": {
       "path": "results/congestion_main_20261019/episodes.csv",
@@ -45,10 +45,14 @@
     "thinking": {
       "path": "results/thinking_conventions_20261029/summary.csv",
       "sha256": "9902b28dfcb8e072063ac715be08383fec8706a85e8bc15a378ed73de0654c7a"
+    },
+    "luna_episodes": {
+      "path": "results/congestion_role_sharing_luna_v1/episodes.csv",
+      "sha256": "7379a93970cbdeb8a0849356dbaffa49443d0fb62a536efa92bda0ff9a225086"
     }
   },
   "outputs": {
-    "numbers.tex": "4586fadbfdf304d378ae1b2f73f4f8983876e6098e0168ecec867cbd6c2878f4",
+    "numbers.tex": "3d05a2caab4da7fabbdadb8e557d1f09d2e8948cd6ec8e42ab71a5991c71fe05",
     "tab_contrasts.tex": "3db26eba08abae8fcf4715664277592fb91d454e7450ef29d5d27c9cd898341e",
     "tab_label.tex": "3c34b6d59d4d195a456b7b10bb9c4b2383a8ea010b11a1215fd9c8ca27eda342",
     "tab_regimes.tex": "d95926b3f8f7bb5bc6b0a4700c3d41ee48357ee3dacce6a89138e9db09c9c24e",
@@ -60,6 +64,9 @@
     "STwoPlanned": "2,048",
     "STwoValid": "2,038",
     "AllValid": "8,069",
+    "LunaPlanned": "512",
+    "LunaValid": "509",
+    "AllValidWithLuna": "8,578",
     "SOneSocialSO": "489",
     "SOneSocialFixed": "424",
     "SOneSocialFixedPct": "86.7",
