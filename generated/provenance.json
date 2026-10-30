@@ -1,6 +1,6 @@
 {
   "script": "paper_acl_role_sharing/build_tables.py",
-  "script_sha256": "022c1ad8105eb6fca5c593c87344e6a0db8c064918ef5d7c4cd2edcf48cdd0d9",
+  "script_sha256": "55d8c483fe681f59562c5445650fefdf5ba371bcb9df2eaf13916ae0d7373c25",
   "inputs": {
     "s1_episodes": {
       "path": "results/congestion_main_20261019/episodes.csv",
@@ -49,13 +49,68 @@
     "luna_episodes": {
       "path": "results/congestion_role_sharing_luna_v1/episodes.csv",
       "sha256": "7379a93970cbdeb8a0849356dbaffa49443d0fb62a536efa92bda0ff9a225086"
+    },
+    "luna_contrasts": {
+      "path": "results/congestion_role_sharing_luna_v1/primary_contrasts.csv",
+      "sha256": "733bc1e0c7c17484d5550841ad7e9a204b0ad37df77d346b774e7f9017ec9127"
+    },
+    "luna_regimes": {
+      "path": "results/congestion_role_sharing_luna_v1/regimes.csv",
+      "sha256": "617507c291728a55fec79207cc8bc87005b0f00ce52ffda3058d932ce1677fda"
+    },
+    "ap_games": {
+      "path": "results/agreement_process_20261030/games.csv",
+      "sha256": "9fd1eca51418685c5f98f6755e8474cad556ada79100cfa42927b55b7a5773ce"
+    },
+    "ap_summary": {
+      "path": "results/agreement_process_20261030/summary.csv",
+      "sha256": "6970b70393a3da5732d3421230eda8872604272d2cb2bc78c98289e079902825"
+    },
+    "ap_requests": {
+      "path": "results/agreement_process_20261030/requests.csv",
+      "sha256": "60bf3378026d75eab7cb2344192a726894562086fbc4773effeafd7e71132183"
+    },
+    "ap_after_break": {
+      "path": "results/agreement_process_20261030/after_break.csv",
+      "sha256": "d974b357d8e7f07bdad17955c8d64408528f7c5b38fd9a5b56e120b85da4a669"
+    },
+    "ap_failed": {
+      "path": "results/agreement_process_20261030/agreed_but_failed.csv",
+      "sha256": "51e69c6734147fca7dbc346aae8bb612046ecd8a76c8601d54e8b306090ab935"
+    },
+    "ap_binding": {
+      "path": "results/agreement_process_20261030/binding_trips.csv",
+      "sha256": "cff4af999dafb408c67c3a34b383a3799c056101890a1071fccad2dd30db0348"
+    },
+    "ap_so_trip": {
+      "path": "results/agreement_process_20261030/so_by_trip.csv",
+      "sha256": "4855e56a227c655d8f3d54edf9cb85c4a47494e5262fe885654f17849ca9db2c"
+    },
+    "ap_ties": {
+      "path": "results/agreement_process_20261030/tie_structure.csv",
+      "sha256": "6fdd816772a75dbaf2259f745e3838bbbf1c624636162f832aa3f3de27e52987"
+    },
+    "ap_rotation": {
+      "path": "results/agreement_process_20261030/rotation_summary.csv",
+      "sha256": "8ebffe161059b48f54e2f683fe29fdea93d4d09b24011a3ef372f94fe7f09883"
+    },
+    "ap_rotation_t1": {
+      "path": "results/agreement_process_20261030/rotation_given_trip1.csv",
+      "sha256": "cb247bf861c59f36f15ffb95446fc39166d70a8bc6ac7fc4f3ac95a437493f47"
+    },
+    "ap_coincidence": {
+      "path": "results/agreement_process_20261030/coincidence.csv",
+      "sha256": "2df8eaa82542bd5a434d0e43226df8de0355e37f0fecf1bf6a55eadea996c695"
     }
   },
   "outputs": {
-    "numbers.tex": "3d05a2caab4da7fabbdadb8e557d1f09d2e8948cd6ec8e42ab71a5991c71fe05",
-    "tab_contrasts.tex": "3db26eba08abae8fcf4715664277592fb91d454e7450ef29d5d27c9cd898341e",
+    "fig_so_by_trip.pdf": "993fb34fbe6e3caf61ee13d0cd7c615216c0bbc681a76dd970c086cbd0136a64",
+    "numbers.tex": "9c1ac3371fc15f0411fcbbe9460327f0a87036c3d63cbac48414775f54d6c6cd",
+    "tab_contrasts.tex": "5d1bd62307b8a2e20921e2fc768879907be3eab777e5e583739eded0ad6ece89",
     "tab_label.tex": "3c34b6d59d4d195a456b7b10bb9c4b2383a8ea010b11a1215fd9c8ca27eda342",
-    "tab_regimes.tex": "d95926b3f8f7bb5bc6b0a4700c3d41ee48357ee3dacce6a89138e9db09c9c24e",
+    "tab_process.tex": "f7b5e6f61a0c2ae8cebede2b2aea964faf81285f8f47a71a0378eb7a9882abc2",
+    "tab_regimes.tex": "7a4b47ecf101f02ab63ac59c4e73a14f5e8f935d1c659fce0d56a6a2653e7095",
+    "tab_rotation.tex": "c078dfc32efb4a6a2d289da86d29003e492475ea31634af793e54f8e5c5c1e42",
     "tab_routine.tex": "20fcbc319ffc7ce06daee794829e33377d806af057aafb8bcaecc0427cac5bb0"
   },
   "numbers": {
@@ -169,6 +224,123 @@
     "ConvCueHi": "41",
     "ConvCueQwenLo": "36",
     "ConvCueQwenHi": "41",
-    "ConvTraces": "3,072"
+    "ConvTraces": "3,072",
+    "HerdNoObjA": "55",
+    "HerdNoObjB": "13",
+    "HerdSelfA": "56",
+    "HerdSelfB": "19",
+    "SOTripNoObj": "15",
+    "SOTripSelf": "11",
+    "SOTripSocial": "45",
+    "HerdSocial": "33",
+    "InfoE": "0",
+    "InfoG": "0",
+    "LunaSocTextOnValid": "64",
+    "LunaSocTextOnSO": "34",
+    "LunaSocTextOnFixed": "32",
+    "LunaSocTextOnRot": "2",
+    "LunaSocTextOnE": "0.031",
+    "LunaSocTextOnG": "0.127",
+    "LunaFairTextOnValid": "62",
+    "LunaFairTextOnSO": "0",
+    "LunaFairTextOnFixed": "0",
+    "LunaFairTextOnRot": "0",
+    "LunaFairTextOnE": "0.112",
+    "LunaFairTextOnG": "0.015",
+    "LunaSocPrivOnValid": "64",
+    "LunaSocPrivOnSO": "7",
+    "LunaSocPrivOnFixed": "7",
+    "LunaSocPrivOnRot": "0",
+    "LunaSocPrivOnE": "0.127",
+    "LunaSocPrivOnG": "0.074",
+    "LunaFairPrivOnValid": "64",
+    "LunaFairPrivOnSO": "4",
+    "LunaFairPrivOnFixed": "0",
+    "LunaFairPrivOnRot": "4",
+    "LunaFairPrivOnE": "0.060",
+    "LunaFairPrivOnG": "0.010",
+    "LunaTextFairEOn": "+0.055",
+    "LunaTextFairEOnLo": "0.017",
+    "LunaTextFairEOnHi": "0.092",
+    "LunaFairTextEOn": "+0.084",
+    "ProcGames": "2,300",
+    "OffGames": "1,151",
+    "OffNamed": "2",
+    "OffTripOneSO": "19",
+    "NamedGames": "869",
+    "UnnamedGames": "280",
+    "NamedSO": "86",
+    "UnnamedSO": "51",
+    "NamedOver": "21",
+    "UnnamedOver": "77",
+    "SameGemmaN": "207",
+    "SameGemmaSO": "99",
+    "SameQwenN": "40",
+    "SameQwenSO": "88",
+    "SameLunaN": "35",
+    "SameLunaSO": "86",
+    "NoneOpenN": "280",
+    "NoneOpenSO": "51",
+    "ConflictN": "293",
+    "ConflictModal": "132",
+    "ConflictNone": "54",
+    "ConflictFirst": "42",
+    "ConflictState": "29",
+    "ConflictOther": "36",
+    "ObjMaxAll": "0.6",
+    "ObjMaxOnAll": "0.2",
+    "ReqMovedLo": "65",
+    "ReqMovedHi": "89",
+    "PrecLo": "71",
+    "PrecHi": "98",
+    "DefectGemmaMax": "0.1",
+    "DefectQwenMax": "1.1",
+    "DefectLunaSoc": "2.4",
+    "DefectLunaFair": "15.7",
+    "DefectLunaFairTrips": "235",
+    "DefectLunaDev": "38",
+    "DefectLunaFromCheap": "25",
+    "RotGThirtyOne": "63",
+    "RotGThirtyOneGames": "64",
+    "RotGThirtyOneSwap": "94",
+    "RotLuna": "0",
+    "RotLunaGames": "62",
+    "RotLunaPlanners": "3.2",
+    "RotLunaListed": "0.63",
+    "RotLunaSwap": "39",
+    "RotPrivGThirtyOneN": "38",
+    "RotPrivGThirtyOneSwap": "71",
+    "RotPrivGThirtyOneRot": "61",
+    "RotPrivGThirtyOneTripOne": "59",
+    "LunaFairSOTripOne": "73",
+    "LunaFairSOTripTwo": "48",
+    "LunaSocSOTripOne": "75",
+    "LunaSocSOTripEight": "92",
+    "BreakPrecPre": "44",
+    "BreakPrecPost": "10",
+    "BreakTotPre": "45",
+    "BreakTotPost": "62",
+    "BreakRivalPre": "18",
+    "BreakRivalPost": "36",
+    "BreakConsPre": "72",
+    "BreakConsPost": "56",
+    "BreakConsSocPost": "85",
+    "LunaFairTrips": "496",
+    "LunaFairFailed": "240",
+    "LunaFairNoPlan": "194",
+    "LunaFairNoPlanFailed": "181",
+    "LunaFairNoPlanSO": "7",
+    "LunaFairNoPlanDev": "2.9",
+    "TieUniquePlan": "70",
+    "TieTiedPlan": "43",
+    "TieUniquePrivSO": "78",
+    "CoGG": "0.39",
+    "CoGL": "0.30",
+    "CoLL": "0.26",
+    "CoGQ": "0.09",
+    "CoQQ": "0.02",
+    "CoGGs": "0.30",
+    "CoGLs": "0.23",
+    "CoLLs": "0.21"
   }
 }
