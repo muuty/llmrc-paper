@@ -1,0 +1,204 @@
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+\usepackage{times,latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype,inconsolata}
+\usepackage{amsmath,amssymb,booktabs,graphicx,makecell,xcolor,enumitem}
+\input{generated/numbers}
+\newcommand{\pending}[1]{\textcolor{blue}{[\textit{#1}]}}
+
+\title{How LLM Agent Groups Divide Costly Roles through Cheap Talk}
+\author{Anonymous working draft (29 October 2026)}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+When language-model agents share a congestible resource, an aggregate objective fixes how much cost the group should incur but not who should bear it. We study how groups of LLM agents settle this question through non-binding pre-play messages in a repeated four-agent congestion game in which equal cumulative costs are attainable at no loss of efficiency. Across \AllValid{} games with two open-weight model families, two sizes, and native thinking on or off, agents divide the costly role through a short conversational routine. In the first exchange, before reading one another, several agents write the same complete assignment; later rounds express agreement with it, later trips repeat it as precedent, and the agents left with the costly role raise no objection. What the routine assigns depends on the stated objective. Under a total-cost objective, games that are optimal on every trip mostly keep fixed roles (\STwoSocFixed{} of \STwoSocSO{} in a follow-up whose analyses were fixed before collection); one added sentence asking for equal totals turns the same routine into rotation schedules written before any outcome is observed (\STwoFairRot{} of \STwoFairSO{} optimal games rotate). When the objective is silent about distribution, the routine fills the gap with cost-irrelevant order: randomising which display label marks the cheaper route changes which agents pay less in all four models. Evaluations of LLM agent groups should examine how roles are assigned, not only how efficient the resulting allocation is.
+\end{abstract}
+
+\section{Introduction}
+Language-model agents increasingly act for users who share limited capacity: compute queues, API quotas, delivery slots, charging stations, roads. Such resources are congestible, so one more user makes everyone slower, and game theory models them as congestion games \citep{roughgarden2002_selfish_routing}. Two coordination problems are combined in them. The group must decide \emph{how many} users take the congestible option, which determines efficiency, and \emph{who} takes it, which determines who bears the cost. Several allocations attain the same minimum total cost and differ only in the second respect. When agents act for people, that difference decides which user repeatedly waits.
+
+Designers usually state collective goals in aggregate terms, such as minimizing total waiting time, which answers the first question and is silent on the second. This silence is not harmless. In the groups we study, the agents who take the costly route on every trip are, far more often than chance, the ones whose names come last; switching which display label marks the cheaper route changes who pays. The allocation is efficient, the burden falls twice as heavily on some agents, and nobody objects. This paper asks how such an outcome arises when the only coordination device is natural-language messages.
+
+Human groups answer the ``who'' question slowly. In laboratory congestion games, participants needed hundreds of rounds of trial and error to discover alternation \citep{helbing2005_turn_taking}, and simulated travelers reached fair, stable optima only with centralized guidance \citep{klein2018_cooperation_atis}. Costless, non-binding communication can select among equilibria, but theory does not say which one \citep{farrell1996_cheap_talk}. Work on LLM agents in social and coordination games largely measures whether cooperation or coordination succeeds, and finds that communication helps \citep{piatti2024_govsim,madmoun2026_communication,agashe2025_llm_coordination}; work on distributive fairness studies a single allocator facing a built-in efficiency--equality trade-off \citep{shi2026_swf,hosseini2025_distributive}. Neither line isolates how a decentralized group chooses among \emph{equally efficient} assignments, or how language mediates the choice.
+
+We use a game that isolates this choice. Four agents choose one of two routes on each of eight trips; total cost is minimal when two agents take each route. Keeping the same two agents on the cheaper route yields cumulative costs $(4,4,8,8)$; rotating yields $(6,6,6,6)$ at the same total. Observed inequality is therefore a choice among optima, not a price paid for efficiency. Before each choice, agents exchange three rounds of declared routes and free-text notes, either privately recorded or broadcast to all. We vary the stated objective, whether notes are shared, and, within every block, which display label marks the cheaper route. Our findings (Figure~\ref{fig:excerpt}):
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+\item \textbf{A role-division routine} (\S\ref{sec:routine}). Agents settle who pays in a recurring four-step sequence: a simultaneous convergent proposal, expressed ratification, maintenance as precedent, and acquiescence by those who pay. We describe this sequence as an empirical regularity, measured lexically and reported as exploratory, not as a postulated mechanism.
+\item \textbf{The objective sets what the routine assigns} (\S\ref{sec:allocation}). Under a total-cost objective the routine fixes roles. One added equality sentence turns it into rotation schedules written before any outcome is observed. Message sharing improves efficiency under both objectives, but its effect on inequality follows the objective. These outcome results follow analyses fixed before collection.
+\item \textbf{When the objective is silent, surface order decides who pays} (\S\ref{sec:who}). The order of agent names and route labels determines who takes the costly role. The cue operates without shared messages, the routine amplifies it, and it disappears under the equality objective. The label effect rests on randomized assignment.
+\end{itemize}
+
+\begin{figure}[t]
+\small
+\fbox{\begin{minipage}{0.95\columnwidth}
+\textbf{(a) Total-cost objective} (Gemma~4 31B, thinking on; congestible route labelled R2)\\[2pt]
+\textit{Trip 1, round 1 (written simultaneously):}\\
+p1: ``\ldots we need exactly 2 agents to choose R2. I propose that p0 and p1 take R2, and p2 and p3 take R1.''\\
+p3: ``\ldots I propose that p0 and p1 take R2, and p2 and p3 (me) take R1.''\\
+\textit{Round 2:} p0: ``Everyone is in agreement: p0 and p1 take R2, and p2 and p3 take R1.''\\
+\textit{Trip 2, round 1:} p3: ``Following the successful coordination from Trip 1, I propose that p0 and p1 continue to choose R2 \ldots''\\[4pt]
+\textbf{(b) Total cost + equality sentence} (Gemma~4 31B, thinking on)\\[2pt]
+\textit{Trip 1, round 1:} p0: ``I propose that (p0, p1) choose R1 for odd trips (1, 3, 5, 7) and (p2, p3) choose R1 for even trips (2, 4, 6, 8).''\\
+\textit{Round 3:} p2: ``As agreed by all agents, p0 and p1 will take R1, while p2 and p3 will take R2. We will follow the rotation strategy \ldots''
+\end{minipage}}
+\caption{Illustrative excerpts from two games, shortened. In (a) the same assignment recurs on all eight trips and the agents named last pay twice as much; in (b) the roles alternate and costs end equal. Excerpts were chosen for clarity, not sampled.}
+\label{fig:excerpt}
+\end{figure}
+
+\section{Related Work}
+\paragraph{LLM agents in social and coordination games.}
+LLMs in repeated two-player games fail to adopt an alternation convention they can predict \citep{akata2025_repeated_games}. Groups sustain shared resources more often with communication \citep{piatti2024_govsim}; one-word cheap talk raises cooperation in a four-player stag hunt \citep{madmoun2026_communication}; the effect of communication varies with game and persona \citep{buscemi2026_strategic_communication}. Agents coordinate well when decisions depend on environmental variables and less well when they require modelling partners \citep{agashe2025_llm_coordination}. Reasoning modes can reduce cooperation \citep{li2025_spontaneous_giving}, and in mixed-motive games agents often break public announcements as planned \citep{shi2026_when_agents_lie}. These studies ask whether coordination succeeds. We ask who is assigned the costly role among equally good allocations, and how the assignment is produced in language.
+
+\paragraph{Conventions, grounding, and cheap talk.}
+A convention selects one of several equally good equilibria \citep{lewis1969_convention}, and salient cues can make one of them focal \citep{schelling1960_strategy}. Pre-play announcements improve coordination in laboratory games \citep{cooper1992_communication,crawford1998_survey}, but theory leaves open which equilibrium they select \citep{farrell1996_cheap_talk}. In conversation, participants ground a contribution by presenting it and accepting it \citep{clark1986_referring,clark1996_using}, and repeated interaction turns ad hoc choices into conventions \citep{hawkins2020_reference_games}. LLM populations form conventions and collective biases through repeated pairwise play \citep{ashery2025_conventions}, and independently queried LLMs agree on focal answers but struggle to diverge when divergence is rewarded \citep{ballestero2026_monoculture}. Our setting requires divergence of roles. We show that LLM groups achieve it within one exchange by attaching roles to identities through a grounding-like sequence, and we identify what determines the attachment.
+
+\paragraph{Distribution and underspecified objectives.}
+Single LLM allocators favor efficiency over equality when the two conflict \citep{shi2026_swf,hosseini2025_distributive}, and deliberation can soften that trade-off in heterogeneous agent societies \citep{gao2026_fairness_evolves}. Prompts often leave requirements implicit, and single models fill them unreliably \citep{yang2026_prompts_dont_say}. LLM choices are sensitive to the order of options and to spurious prompt features \citep{pezeshkpour2024_order,sclar2024_spurious}. We connect these strands: in a decentralized group where equality is free, an unstated distributive requirement is filled by a coordination routine whose content follows surface order.
+
+\section{Setting}
+\label{sec:setting}
+\paragraph{Game.}
+Four agents choose route $A$ or $B$ on each of eight trips. With $n_t$ agents on $A$, each pays $c_A=n_t/4$ on $A$ and $c_B=1$ on $B$, so the trip total is $3+(n_t-2)^2/4$. The social optimum (SO) places two agents on each route. Route $A$ is weakly dominant, and four agents on $A$ is the outcome of independent self-interested choice. Let $C_i$ be agent $i$'s cumulative cost. We report excess total cost relative to SO, $E=\sum_i C_i/24-1$, and the Gini coefficient $G$ of $(C_1,\dots,C_4)$. Table~\ref{tab:bench} lists reference trajectories. A game is \emph{fixed} if it is SO on every trip with the same two agents on $A$ throughout, and \emph{rotating} if it is SO on every trip with each agent on $A$ four times ($E=G=0$).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lccc}
+\toprule
+Trajectory & Costs & $E$ & $G$ \\
+\midrule
+All on $A$ (dominant choice) & 8,8,8,8 & 1/3 & 0 \\
+Fixed SO roles & 4,4,8,8 & 0 & 1/6 \\
+Rotating SO roles & 6,6,6,6 & 0 & 0 \\
+Independent uniform choice & -- & 1/12 & 0.049 \\
+\bottomrule
+\end{tabular}
+\caption{Reference trajectories over eight trips. Independent uniform choice yields a rotating SO game with probability about $10^{-5}$.}
+\label{tab:bench}
+\end{table}
+
+\paragraph{Protocol.}
+Each trip has three preparation rounds and one final choice. In every preparation round, all four agents simultaneously return a declared route and a free-text note. Under \emph{shared} messages, all declarations and notes are broadcast after each round; under \emph{private} messages, each agent sees only its own. Final choices are private and simultaneous; declarations are not binding. Agents see the cost rules, completed-trip outcomes, and messages from the current and previous trip. The prompt describes only this procedure (Appendix~\ref{app:prompts}). It does not ask agents to propose, agree, lead, or rotate, and messages are delivered unedited. We do fix the agent names (p0--p3) and route labels (R1, R2), both of which are ordered; the order in which agents are listed is shuffled per game.
+
+\paragraph{Objectives.}
+\emph{Own cost}: each agent minimizes its own total travel time over eight trips. \emph{Total cost}: each agent minimizes ``the sum of all agents' travel times over the 8 trips''. \emph{Total cost + equality} appends: ``Among outcomes with the minimum sum, make the agents' total travel times over the 8 trips as equal as possible.''
+
+\paragraph{Models and design.}
+We use Gemma~4 12B and 31B and Qwen3 14B and 32B, each with native thinking off or on; all agents in a game share the model and mode. Study~1 crosses no objective, own cost, and total cost with two history formats and private versus shared messages (\SOnePlanned{} planned games, \SOneValid{} complete). Study~2 crosses total cost versus total cost + equality with private versus shared messages, holding the history format fixed (\STwoPlanned{} planned, \STwoValid{} complete). Each condition has 32 blocks; each block contains two games that differ only in which label (R1 or R2) marks route $A$, assigned at random. Incomplete games reached the generation limit during preparation.
+
+\paragraph{Analysis.}
+Blocks are independent units; agents and trips within a game are not. For each study, contrasts within each of the eight model--mode strata were fixed before collection (96 in Study~1, 80 in Study~2), with Bonferroni-adjusted intervals that retain all planned blocks by assigning incomplete games their full feasible range. Thinking mode was not randomized and, for Qwen, changes sampling parameters, so we treat it as a stratum. Routine measures (\S\ref{sec:routine}) are lexical: a parser recovers named route assignments from notes, fixed lexicons detect agreement, objection, and reassignment across trips, and a separate lexicon flags convention reasoning in thinking traces. Two LLM coders blind to condition and outcome labelled \AuditItems{} stratified messages for the reassignment lexicon (Cohen's $\kappa=\AuditKappa$; precision \AuditPrecision\%; no misses among first-trip messages, \AuditMissFixed\% among fixed-role games). \pending{Human validation of the routine measures is in progress; numbers in \S\ref{sec:routine} will be updated.}
+
+\section{How Groups Divide Roles}
+\label{sec:routine}
+We first describe how roles are divided, using thinking-on games with shared messages under the two collective objectives, pooled over Studies~1 and~2; \S\ref{sec:allocation} then turns to what the division yields. All results in this section are exploratory. Across these games, role division follows a recurring sequence:
+\begin{enumerate}[leftmargin=*,itemsep=1pt]
+\item \textbf{Simultaneous convergent proposal.} In the first round, before reading anyone, several agents write the same complete assignment of all four agents.
+\item \textbf{Expressed ratification.} Later rounds acknowledge and confirm the assignment rather than renegotiate it.
+\item \textbf{Precedent maintenance.} On later trips, agents keep the assignment and justify it by its earlier success.
+\item \textbf{Acquiescence.} Agents left with the costly role do not object or counter-propose.
+\end{enumerate}
+In grounding terms, stage~1 is a presentation that arrives from several speakers at once, and stage~2 its acceptance \citep{clark1986_referring}; stage~3 is the beginning of conventionalization \citep{lewis1969_convention,hawkins2020_reference_games}.
+
+\paragraph{Simultaneous convergent proposal.}
+Gemma agents seldom open with their own preference; they write a complete assignment for all four agents. Under the total-cost objective, at least one agent does so in the first round of most Gemma games (Table~\ref{tab:routine}); in Gemma~4 31B, \GThirtyOneRoundOne{} of \GThirtyOneGames{} games, with \GThirtyOneMeanProp{} proposers per game. Because first-round messages are written simultaneously, agreement among them cannot result from persuasion. In \GThirtyOneFront{} of these games the most frequent proposal gives the cheaper route to the first two names, and in \GThirtyOneAdopted{} it is enacted on the first trip. Proposers rarely favour themselves: when p2 or p3 proposes, the proposal assigns the cheaper route to p0 and p1 in \GThirtyOneBackFront{} of \GThirtyOneBackProp{} cases. Convergent openings go with fast coordination: across models and both objectives, the first trip is optimal in \KindSameSO\% of games where two or more agents opened with the same assignment ($n=\KindSameN$), \KindDiffSO\% where openings differed ($n=\KindDiffN$), and \KindNoneSO\% where no one proposed an assignment ($n=\KindNoneN$). When openings conflict, the most frequent proposal usually prevails (Gemma~4 31B: \GThirtyOneMajority{} of \GThirtyOneConflict{} conflicts) rather than the one listed first (\GThirtyOneFirstListed).
+
+\begin{table}[t]
+\centering\small
+\resizebox{\columnwidth}{!}{\input{generated/tab_routine}}
+\caption{The routine under the total-cost objective (thinking on, shared messages, Studies~1 and~2). Named assignment: games with at least one complete named assignment in the first round. Agreement: share of round 2--3 messages with agreement expressions. Contest: fixed-role games in which an agent on the costly route ever objects or counter-proposes. Lexical measures; exploratory.}
+\label{tab:routine}
+\end{table}
+
+\paragraph{Expressed ratification and precedent.}
+Agreement expressions (``Everyone is in agreement'', ``as proposed'') appear in \AgreeGThirtyOneSoc\% of Gemma~4 31B round 2--3 messages under total cost and \AgreeGThirtyOneFair\% under the equality objective, while objections or alternatives appear in at most \ObjectMaxOn\% of messages in any thinking-on condition. From the second trip, agents justify the same split by its earlier success (``maintain the distribution from Trip 1''). Agreement here is a speech act that agents perform; the protocol has no mechanism that makes it binding.
+
+\paragraph{Acquiescence.}
+We separate two layers. Explicitly, in the \FixedGames{} fixed-role games no message from an agent on the costly route contains an objection or a counter-proposal under our lexical measure. Implicitly, only \FixedBurdenLo--\FixedBurdenHi\% of these games, depending on the model, contain any mention by those agents of fairness or of their own total. Rotation is usually not proposed and rejected but never raised: in Study~1, \SOneSocFixedNoLang{} of \SOneSocFixed{} fixed-role games contain no reassignment language at all. Because every agent must declare a route each round, acquiescence here means the absence of dissent, not silence.
+
+\paragraph{A routine, not a fixed template.}
+Three observations argue against reading the sequence as a stock output pattern. First, it depends on the model and mode: Qwen agents more often state only their own route or a rule by identifier parity (``even-indexed agents take R1'') and keep whatever first split succeeds, and with thinking off no agent writes a named assignment in the first round of a total-cost game (\OffSocNamed{} of \OffSocGames). Second, first-round thinking traces often reason explicitly about conventions before any message is written, for example ``A common convention is often alphabetical or numerical order. Let's suggest p0 and p1 take R2'' (Gemma~4 31B) or ``Since the names are p0, p1, p2, p3, a common convention is to have the lower-indexed agents take R2 or R1'' (Gemma~4 12B). A convention lexicon flags \ConvCueLo--\ConvCueHi\% of the \ConvTraces{} first-round traces under total cost, with Qwen at the high end (\ConvCueQwenLo--\ConvCueQwenHi\%) even though Qwen agents rarely announce such a convention; we treat traces as verbalised considerations, not faithful reasoning. Third, the same sequence carries different content under a different objective (\S\ref{sec:allocation}).
+
+\section{What the Routine Assigns}
+\label{sec:allocation}
+\paragraph{Total cost yields fixed roles.}
+Relative to own cost, the total-cost objective reduces $E$ and increases $G$ in \SOneSocSelfE{} of eight strata in Study~1 (Table~\ref{tab:contrasts}). The increase in $G$ is not a loss relative to a fair baseline: without a collective objective, groups mostly herd onto route $A$, which is equal but inefficient. Total cost moves groups toward the optimum, and mostly into fixed roles: of \SOneSocialSO{} Study~1 total-cost games that are optimal on every trip, \SOneSocialFixed{} (\SOneSocialFixedPct\%) never change roles. Without shared messages, no Study~1 game rotates (\SOnePrivateRot{} of \SOnePrivateGames).
+
+\begin{table}[t]
+\centering\small
+\resizebox{\columnwidth}{!}{\input{generated/tab_regimes}}
+\caption{Study~2 games that are optimal on every trip (SO), split into fixed and rotating roles. Counts are over complete games; each objective--messages cell has 512 planned games (256 per mode).}
+\label{tab:regimes}
+\end{table}
+
+\paragraph{One sentence turns fixed roles into rotation.}
+In Study~2, the number of games optimal on every trip changes little when the equality sentence is added (\STwoSocSO{} to \STwoFairSO), but fixed-role games fall from \STwoSocFixed{} to \STwoFairFixed{} and rotating games rise from \STwoSocRot{} to \STwoFairRot{} (Table~\ref{tab:regimes}). With thinking on and shared messages, \STwoFairTextOnRot{} of \STwoFairTextOnGames{} games rotate, in both model families. The equality sentence lowers $G$ in \FairPrivG{} strata with private messages and \FairTextG{} with shared messages, including all four thinking-on strata in each case, and never raises it. With private messages it raises $E$ in \FairPrivEInc{} strata: some groups equalize by losing efficiency rather than by rotating. With shared messages it raises $E$ in none.
+
+\begin{table}[t]
+\centering\small
+\input{generated/tab_contrasts}
+\caption{Pre-specified contrasts: number of the eight model--mode strata in which the adjusted interval shows a decrease\,/\,increase. Remaining strata are inconclusive. Study~1 contrasts average over the other factors.}
+\label{tab:contrasts}
+\end{table}
+
+\paragraph{Messages help efficiency; their distributional effect follows the objective.}
+Sharing messages lowers $E$ in \SOneTextE{} strata in Study~1 and in \TextFairE{} under the equality objective in Study~2. Its effect on $G$ has opposite signs across objectives: under total cost it raises $G$ in \TextSocGInc{} strata, entrenching fixed roles; under the equality objective it lowers $G$ in \TextFairG{}. The objective-by-messages interaction on $G$ is negative in \InterG{} strata and positive in none. The same channel coordinates both allocations; what it allocates depends on the objective.
+
+\paragraph{The same routine writes rotation schedules.}
+Under the equality objective, stage~1 proposals are multi-trip schedules (Figure~\ref{fig:excerpt}b). Of \PlanFairTextRot{} rotating games, \PlanFairTextRoundOne{} contain reassignment language in the first round of the first trip, before any outcome exists, and \PlanFairTextChangeTwo{} change roles at the second trip. Declared changes are executed: in \IntendedChangesExec{} of \IntendedChanges{} final-round declarations of a role change, the declared assignment is the one chosen. Writing a plan is not enough; it has to be shared. With private notes, agents in \PlanFairPrivWrote{} of \PlanFairPrivGames{} games write a rotation plan on the first trip, but only \PlanExecPriv\% of such games rotate (95\% cluster bootstrap \PlanExecPrivLo--\PlanExecPrivHi\%), against \PlanExecText\% (\PlanExecTextLo--\PlanExecTextHi\%) when notes are shared. Each agent can arrive at the idea of rotation alone; the group enacts it only once the plan is in common ground \citep{clark1996_using}. Because plan writing follows treatment, this comparison is descriptive.
+
+\section{Who Pays When the Objective Is Silent}
+\label{sec:who}
+\paragraph{Label order.}
+Each block pairs two games that differ only in whether the cheaper route is displayed as R1 or R2. Let the gap be the mean cumulative cost of p0 and p1 minus that of p2 and p3. Under total cost with shared messages, switching the cheaper route's label raises the gap by \LabelEffLo{} to \LabelEffHi{} cost units across the four models (Table~\ref{tab:label}; a fixed-role game has a gap of $\pm4$). The pattern is that the first names take the first label. Qwen3 14B applies the cue by parity instead: the difference between even and odd identifiers is \QFourteenParityROne{} with R1 cheaper and \QFourteenParityRTwo{} with R2 cheaper. Across fixed-role games, the pair \{p0, p1\} takes the cheaper route in \FixedPairFront{} of \FixedPairGames{} (\FixedPairFrontPct\%; one in six by chance).
+
+\begin{table}[t]
+\centering\small
+\resizebox{\columnwidth}{!}{\input{generated/tab_label}}
+\caption{Label effect on who pays (thinking on). Gap: mean cumulative cost of p0, p1 minus p2, p3, when the cheaper route is labelled R1 versus R2. Effect: block-paired difference (R2 $-$ R1), standard error in parentheses, Studies~1 and~2 pooled.}
+\label{tab:label}
+\end{table}
+
+\paragraph{The cue precedes the routine; the routine carries it.}
+The effect appears with private messages in three of four models (Table~\ref{tab:label}): agents converge on the same name--label mapping without exchanging anything, so the cue is a shared focal point rather than a product of discussion. Sharing messages amplifies it, as stage~1 proposals announce the mapping and stages~2--4 lock it in. Under the equality objective the effect disappears in every model (absolute effect at most \LabelFairMax): the order cue fills exactly the gap the objective leaves open. The routine is thus the carrier and the order cue its default content.
+
+\paragraph{Names.} \pending{Planned experiment: ordered (p0--p3) versus unordered random-string identifiers, total-cost objective, private and shared messages, thinking on, 32 blocks with label crossing. Prediction: with unordered identifiers the advantage of any fixed pair falls to chance, the listing order may take over as cue, and first-trip coordination slows if the shared cue drives its speed. Results pending.}
+
+\section{Can One Agent Capture the Routine?}
+\label{sec:capture}
+\pending{Planned experiment. One seat (p3) is scripted and repeats a fixed proposal: a fair rotation (control) or a self-serving efficient split in which p3 and p2 always take the cheaper route. Total cost versus total cost + equality; shared messages; thinking on; 32 blocks with label crossing. Outcomes: the proposer's cost advantage, $E$, follower compliance, and objections. This tests whether acquiescence (stage~4) is a vulnerability: whether an explicit self-serving proposal displaces the shared convention, and whether the equality sentence protects against it. Results pending.}
+
+\section{Discussion}
+The groups we study coordinate quickly and quietly. One exchange of proposals, written before agents read one another, typically settles an assignment that later rounds ratify and later trips repeat. The routine serves efficiency well. What it assigns is decided by the stated objective when the objective addresses distribution, and otherwise by the order of names and labels that the designer happened to choose. Agents who end up paying twice as much do not contest the outcome.
+
+Two implications follow. First, an aggregate objective is an incomplete specification for a multi-agent system, and the completion it receives is neither random nor neutral: across independent groups, the same positions bear the cost. Second, evaluations that report only efficiency or cooperation miss the assignment rule. The rule is visible in the agents' own language, and a one-sentence change to the objective rewrites it.
+
+The comparison with people is instructive. Human groups learn alternation over many rounds \citep{helbing2005_turn_taking} and build conventions through repeated grounding \citep{hawkins2020_reference_games}. LLM groups here present a convention in their first messages, which suggests that shared priors supply it ready-made. Independently queried LLMs fail to diverge when divergence is rewarded \citep{ballestero2026_monoculture}; our groups differentiate roles at once by attaching them to identities. Shared priors thus make coordination fast and make its content depend on shared surface cues. Whether groups of different models still converge this way is a question for future work.
+
+\section*{Limitations}
+Groups are homogeneous in model and prompt, and the game is a single four-agent, eight-trip congestion game chosen because its optima are exact. The protocol uses simultaneous rounds with a mandatory route declaration; ratification and acquiescence may differ under sequential or free-form dialogue. Agent names and labels are ordered and names were not varied (\S\ref{sec:who}). All models are open-weight. The equality requirement was tested with one sentence. Routine measures are lexical, designed after inspecting outcomes, and validated so far only by LLM coders; thinking traces are not faithful accounts of computation. Thinking mode is a stratum, not a treatment. We make no claim about human fairness preferences or real traffic.
+
+\section*{Ethics and Reproducibility}
+Agents are simulated and no human data are collected. Model revisions, prompts, seeds, raw responses, thinking traces where returned, execution settings, audits, and analysis code are retained; all numbers in this draft are generated from audited result files with recorded hashes. AI assistance was used for implementation and drafting.
+
+\bibliography{refs}
+
+\appendix
+\section{Prompt}
+\label{app:prompts}
+For agent p0 on trip $t$, with R1 as route $A$ (labels swap in the paired game):
+\begin{quote}\small\ttfamily
+You are p0, one of 4 agents choosing between R1 and R2 over 8 trips. This is trip $t$.\\
+R1 travel time is the number of agents choosing R1 on this trip divided by 4.\\
+R2 travel time is 1.\\
+{[}Objective sentence(s), if any.{]}\\
+Each trip has 3 rounds for exchanging intended routes and messages, followed by simultaneous route choices.\\
+Everyone receives all intended routes and messages after each round.\\
+Past trips: {[}JSON{]}\\
+Preparation records: {[}JSON{]}\\
+Preparation round $k$ of 3. Return JSON with "intent" ("R1" or "R2") and "note" (text).
+\end{quote}
+With private messages, the two communication lines are replaced by ``Each trip has 3 rounds for privately recording your intended route and a note, followed by simultaneous route choices.'' The final call ends with ``Final choice. Return JSON with "route" ("R1" or "R2").'' \pending{Full contrast tables, per-model regime counts, the lexicons, audit details, and additional excerpts to be added.}
+\end{document}
